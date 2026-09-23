@@ -3,74 +3,38 @@
 apiVersion: v1
 kind: Template
 metadata:
-  name: frontend-starter-app
+  name: lightwell-network-ui-frontend
 objects:
   - apiVersion: cloud.redhat.com/v1alpha1
     kind: Frontend
     metadata:
-      name: frontend-starter-app
+      name: lightwell-network-ui
     spec:
       feoConfigEnabled: true
-      serviceTiles:
-        - id: starter-link
-          section: automation
-          group: ansible
-          title: Starter app FEO integration testing tile
-          href: /staging/starter
-          description: This tile will not show in production and exists only for integration testing purposes
-          icon: AnsibleIcon
-      searchEntries:
-        - id: "starter"
-          title: "Starter app FEO testing link"
-          href: /staging/foo/starter
-          description: "An experimental link to test FEO features integration"
-          alt_title:
-            - Starter
-            - Starter app
-            - Hidden App Link
-      bundleSegments:
-        - segmentId: starter-app-two
-          bundleId: staging
-          position: 200
-          navItems:
-            - id: frontend-starter-app-two
-              title: Starter app link two
-              href: /staging/foo/starter
-        - segmentId: starter-app
-          bundleId: staging
-          position: 100
-          navItems:
-            - id: frontend-starter-app
-              title: Starter app link
-              href: /staging/starter
+      # TODO: add serviceTiles and searchEntries for lightwell
       API:
         versions:
           - v1
       envName: ${ENV_NAME}
-      title: Starter App
-      deploymentRepo: https://github.com/RedHatInsights/frontend-starter-app
+      title: LightwellNetworkUI
+      deploymentRepo: https://github.com/lightwell-network/lightwell-network-frontend
       frontend:
         paths:
-          - /apps/frontend-starter-app
+          - /apps/lightwell-network-ui
       image: ${IMAGE}:${IMAGE_TAG}
       pushCacheEnabled: true
 
       module:
-        manifestLocation: '/apps/frontend-starter-app/fed-mods.json'
+        manifestLocation: '/apps/lightwell-network-ui/fed-mods.json'
         modules:
-          - id: 'overview'
+          - id: 'lightwell-network-ui'
             module: './RootApp'
             routes:
-              - pathname: /staging/starter
-          - id: 'feo-hidden-route'
-            module: './RootApp'
-            routes:
-              - pathname: /staging/foo/starter
-
+              - pathname: /staging/lightwell # TODO: confirm temporary route for lightwell tenant to use during onboarding
 parameters:
   - name: ENV_NAME
     required: true
   - name: IMAGE_TAG
     required: true
   - name: IMAGE
-    value: quay.io/redhat-services-prod/rh-platform-experien-tenant/frontend-starter-app
+    value: quay.io/redhat-services-prod/lightwell-network-ui-tenant/lightwell-network-ui/lightwell-network-ui-frontend
